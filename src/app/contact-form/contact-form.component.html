@@ -1,0 +1,41 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div ngModelGroup="contact" #contact="ngModelGroup">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input required minlength="3" maxlength="10" pattern="durgesh" ngModel name="firstName" #firstName="ngModel"
+                (change)="log(firstName)" type="text" class="form-control" id='firstName' />
+            <div class="alert alert-danger" *ngIf="firstName.touched && !firstName.valid">
+                <div *ngIf="firstName.errors.required">first name is required.</div>
+                <div *ngIf="firstName.errors.minlength">minlength should be
+                    {{firstName.errors.minlength.requiredLength}}
+                    charectors.</div>
+                <div *ngIf="firstName.errors.pattern">pattern is not correct.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="comment">Comment</label>
+        <textarea ngModel name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ngModel name="isSubscribe">Subscribe to mailing List</label>
+    </div>
+    <div class="form-group">
+        <label for="selectMethod"> selected method</label>
+        <select multiple ngModel name="selectMethod" id="selectMethod" class="form-control">
+            <option value=""></option>
+            <option *ngFor="let select of selectMethod" [ngValue]="select">{{select.value}}</option>
+        </select>
+    </div>
+    <div class="form-check" *ngFor="let select of selectRadio">
+        <label class="form-check-label">
+            <input ngModel type="radio" class="form-check-input" name="selectRadio"
+                [value]="select.id">{{ select.value}}
+        </label>
+    </div>
+
+    <p>{{f.value | json}}</p>
+    <button class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+</form>
